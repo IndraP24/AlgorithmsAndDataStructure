@@ -1,0 +1,29 @@
+def gravity_sort(a):
+    n = len(a)
+    maximum = max(a)
+    beads = [[0]*maximum for _ in xrange(n)]
+    for i in range(n):
+        for j in range(a[i]):
+            beads[i][j] = 1
+
+    for j in range(maximum):
+        # count number of beads to drop in each column
+        drop_beads_by_column = 0
+        for i in range(n):
+            drop_beads_by_column += beads[i][j]
+
+            # Take out all beads in current column
+            beads[i][j] = 0
+
+        # drop the beads from taken out from current column to lower levels
+        # by stacking them one above the other
+        for i in range(n-1, n-drop_beads_by_column-1, -1):
+            beads[i][j] = 1
+
+   
+        for i in range(n):
+            # count number of 1s in each row
+            num_beads_in_row = beads[i].count(1)
+            a[i] = num_beads_in_row
+
+    return a
